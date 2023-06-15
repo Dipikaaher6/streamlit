@@ -16,9 +16,9 @@ if not s:
 
 with st.sidebar:
     
-    SF_ACCOUNT = st.text_input('Snowflake account:')
-    SF_USR = st.text_input('Snowflake user:')
-    SF_PWD = st.text_input('Snowflake password:', type='password')
+    SF_ACCOUNT = st.text_input('Snowflake account: tkckwbg-cg78337')
+    SF_USR = st.text_input('Snowflake user: DIPIKA15')
+    SF_PWD = st.text_input('Snowflake password: SourabhAyu@1501', type='password')
 
     conn = {'ACCOUNT': SF_ACCOUNT,'USER': SF_USR,'PASSWORD': SF_PWD}
             
@@ -30,13 +30,13 @@ with st.sidebar:
             if session != '':
                 datawarehouse_list = session.sql("show warehouses;").collect()
                 datawarehouse_list =  pd.DataFrame(datawarehouse_list)
-                datawarehouse_list= datawarehouse_list["name"]
+                datawarehouse_list= datawarehouse_list["INTL_WH"]
 
                 datawarehouse_option = st.selectbox('Select Virtual datawarehouse', datawarehouse_list)
 
                 database_list_df = session.sql("show databases;").collect()
                 database_list_df =  pd.DataFrame(database_list_df)
-                database_list_df = database_list_df["name"]
+                database_list_df = database_list_df["INTL_DB"]
                 
                 database_option = st.selectbox('Select database', database_list_df)
                 set_database = session.sql(f'''USE DATABASE {database_option}   ;''').collect()
@@ -45,7 +45,7 @@ with st.sidebar:
                     set_database = session.use_database(database_option)
                     schema_list_df = session.sql("show schemas;").collect()
                     schema_list_df =  pd.DataFrame(schema_list_df)
-                    schema_list_df = schema_list_df["name"]
+                    schema_list_df = schema_list_df["PUBLIC"]
 
                     schema_option = st.selectbox('Select schema', schema_list_df)
                     set_schema = session.sql(f'''USE schema {schema_option}   ;''').collect()
@@ -54,7 +54,7 @@ with st.sidebar:
                         table_list_df = session.sql("show tables;").collect()
                         table_list_df =  pd.DataFrame(table_list_df)
                         if not table_list_df.empty:
-                            table_list_df = table_list_df["name"]
+                            table_list_df = table_list_df["INT_STDS_ORG_3661"]
 
                             table_option = st.selectbox('Select tables', table_list_df)
                             upload_table = st.text_input('Use table:',table_option)
